@@ -3,11 +3,11 @@ class node:
         self.name = name
         self.connections = {}
  # n= number of nodes and m =  no of edges
-n,m = map(int, input().strip().split())
+n,m = map(int, input().split())
 for i in range(m):
   #x,y,r represents x-->y and r is the weight....
 	
-    x,y,r = list(map(int, input().strip().split()))
+    x,y,r = list(map(int, input().split()))
     
     
     if x not in graph:
