@@ -1,0 +1,19 @@
+class node:
+    def __init__(self, name):
+        self.name = name
+        self.connections = {}
+
+for i in range(m):
+  #x,y,r represents x-->y and r is the weight....
+	
+    x,y,r = list(map(int, input().strip().split()))
+    
+    
+    if x not in graph:
+        graph[x] = node(x)
+    if y not in graph:
+        graph[y] = node(y)
+        
+    
+    graph[x].connections[graph[y]] = r
+    graph[y].connections[graph[x]] = r
