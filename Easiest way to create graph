@@ -2,7 +2,8 @@ class node:
     def __init__(self, name):
         self.name = name
         self.connections = {}
-
+ # n= number of nodes and m =  no of edges
+n,m = map(int, input().strip().split())
 for i in range(m):
   #x,y,r represents x-->y and r is the weight....
 	
