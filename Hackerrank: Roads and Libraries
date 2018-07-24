@@ -1,0 +1,36 @@
+from collections import defaultdict
+
+def DFS(n,m,clib,croad,p,visited,i):
+    cost_=0
+    for x  in p[i]:
+        if not visited[x]:
+            cost_+=croad
+            visited[x] = True
+            cost_+=DFS(n,m,clib,croad,p,visited,x)
+    return cost_        
+    
+    
+def cost(n,m,clib,croad,p,visited):
+    cost_=0
+    #visited = [False]*(n+1)
+    #print (visited)
+    for i in range(1,(n+1)):
+        if not visited[i]:     
+            visited[i] = True
+            cost_+=clib
+            #print(i)
+            cost_+=DFS(n,m,clib,croad,p,visited,i)
+    return cost_            
+
+for _ in range(int(input())):
+    n,m,clib,croad = map(int,input().split())
+    p = defaultdict(list)
+    for i in range(m):
+        s,d = map(int,input().split())
+        p[s].append(d)
+        p[d].append(s)
+    if(clib<=croad):
+        print(n*clib)
+    else:    
+        visited = [False]*(n+1)
+        print(cost(n,m,clib,croad,p,visited))
