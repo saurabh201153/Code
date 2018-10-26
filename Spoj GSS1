@@ -1,0 +1,88 @@
+/*
+Author: Saurabh Kumar Srivastava
+        National Institute of Technology Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define INT_MI -1000000
+struct t{
+	long sum=0,pre=INT_MI,suffi=INT_MI,best=INT_MI;
+};
+struct t mini;
+
+long ar[100005];
+struct t tree[400005];
+
+void build(long start,long end,long node){
+	if(start==end){
+		{tree[node].sum=tree[node].pre=tree[node].suffi=tree[node].best=ar[start];   }
+	}
+	else{
+		long mid=(start+end)/2;
+		build(start,mid,2*node);
+		build(mid+1,end,2*node+1);
+		tree[node].sum=tree[2*node].sum+tree[2*node+1].sum;
+		tree[node].pre=max(tree[2*node].pre,tree[2*node].sum+tree[2*node+1].pre);
+		tree[node].suffi=max(tree[2*node+1].suffi,tree[2*node+1].sum+tree[2*node].suffi);
+		tree[node].best=max(max(tree[2*node].best,tree[2*node+1].best),tree[2*node].suffi+tree[2*node+1].pre);
+	}
+}
+
+/*void update(int start,int end,int node,int idx,int value){
+	if(start==end)
+		{ tree[node].mx=value;  ar[idx]=value;}  
+	else{
+		int mid=(start+end)/2;
+		if(idx>=start and idx<=mid)
+			update(start,mid,2*node,idx,value);
+		else
+			update(mid+1,end,2*node+1,idx,value);
+		if(tree[2*node].mx>tree[2*node+1].mx)
+			{tree[node].mx=tree[2*node].mx;    tree[node].smx=max(tree[2*node+1].mx,tree[2*node].smx);}
+		else
+			{tree[node].mx=tree[2*node+1].mx;     tree[node].smx=max(tree[2*node].mx,tree[2*node+1].smx);}
+	}
+
+}*/
+
+
+struct t query(long start,long end,long node,long qs,long qe){
+	struct t ans;
+	if(start > qe or end<qs)
+		return mini;
+	else if(qs<=start and qe>=end)
+		return tree[node];
+	else{
+		long mid=(start+end)/2;
+		struct t p1=query(start,mid,2*node,qs,qe);
+		struct t p2=query(mid+1,end,2*node+1,qs,qe);
+		
+		ans.sum=p1.sum+p2.sum;
+		ans.pre=max(p1.pre,p1.sum+p2.pre);
+		ans.suffi=max(p2.suffi,p2.sum+p1.suffi);
+		ans.best=max(p2.pre+p1.suffi,max(p1.best,p2.best));
+		return ans;
+	}
+}
+
+int main(){
+	long n,q,l,r;     char a;
+	cin>>n;
+	for(long i=1;i<n+1;i++)
+		cin>>ar[i];
+	/*for(int i=1;i<2*(n+1)+1;i++)
+		cout<<tree[i].mx<<" ";*/
+		build(1,n,1);
+
+	cin>>q;
+	while(q--){
+		cin>>l>>r;
+		/*if(a=='U')
+			update(1,n,1,l,r);*/
+		
+			struct t ans = query(1,n,1,l,r);
+			cout<<ans.best<<"\n";
+	}
+
+}
