@@ -1,0 +1,89 @@
+/*
+Author: Saurabh Kumar Srivastava
+        National Institute of Technology Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct t{
+	int mx=INT_MIN,smx=INT_MIN;
+};
+struct t mini;
+
+int ar[100005];
+struct t tree[400005];
+
+void build(int start,int end,int node){
+	if(start==end){
+		{tree[node].mx=ar[start];      tree[node].smx=INT_MIN;}
+	}
+	else{
+		int mid=(start+end)/2;
+		build(start,mid,2*node);
+		build(mid+1,end,2*node+1);
+		if(tree[2*node].mx>tree[2*node+1].mx)
+			{tree[node].mx=tree[2*node].mx;    tree[node].smx=max(tree[2*node+1].mx,tree[2*node].smx);}
+		else
+			{tree[node].mx=tree[2*node+1].mx;     tree[node].smx=max(tree[2*node].mx,tree[2*node+1].smx);}
+	}
+}
+
+void update(int start,int end,int node,int idx,int value){
+	if(start==end)
+		{ tree[node].mx=value;  ar[idx]=value;}  
+	else{
+		int mid=(start+end)/2;
+		if(idx>=start and idx<=mid)
+			update(start,mid,2*node,idx,value);
+		else
+			update(mid+1,end,2*node+1,idx,value);
+		if(tree[2*node].mx>tree[2*node+1].mx)
+			{tree[node].mx=tree[2*node].mx;    tree[node].smx=max(tree[2*node+1].mx,tree[2*node].smx);}
+		else
+			{tree[node].mx=tree[2*node+1].mx;     tree[node].smx=max(tree[2*node].mx,tree[2*node+1].smx);}
+	}
+
+}
+
+
+
+struct t query(int start,int end,int node,int qs,int qe){
+	struct t ans;
+	if(start > qe or end<qs)
+		return mini;
+	else if(qs<=start and qe>=end)
+		return tree[node];
+	else{
+		int mid=(start+end)/2;
+		struct t p1=query(start,mid,2*node,qs,qe);
+		struct t p2=query(mid+1,end,2*node+1,qs,qe);
+		
+		if(p1.mx>p2.mx)
+			{ans.mx=p1.mx;    ans.smx=max(p2.mx,p1.smx);}
+		else
+			{ans.mx=p2.mx;     ans.smx=max(p1.mx,p2.smx);}
+		return ans;
+		
+	}
+}
+
+int main(){
+	int n,q,l,r;     char a;
+	cin>>n;
+	for(int i=1;i<n+1;i++)
+		cin>>ar[i];
+	/*for(int i=1;i<2*(n+1)+1;i++)
+		cout<<tree[i].mx<<" ";*/
+		build(1,n,1);
+	cin>>q;
+	while(q--){
+		cin>>a>>l>>r;
+		if(a=='U')
+			update(1,n,1,l,r);
+		else
+			{struct t ans = query(1,n,1,l,r);
+			cout<<ans.mx+ans.smx<<"\n";}
+	}
+
+}
