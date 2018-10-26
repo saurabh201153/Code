@@ -1,0 +1,40 @@
+/*
+Author: Saurabh Kumar Srivastava
+        National Institute of Technology Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+long long n,t,i;
+cin>>t;
+while(t--){
+	cin>>n;
+	long long arr[n],ans[100009];
+	for(i=0;i<n;i++){
+		cin>>arr[i];
+		ans[i]=0;
+	}
+	for(i=n;i<100009;i++)
+	ans[i]=0;
+	for(i=n-1;i>=0;i--){
+		ans[i]=max(ans[i],arr[i]+ans[i+2]);
+		if((i+1)<n)
+		ans[i]=max(ans[i],arr[i]+arr[i+1]+ans[i+4]);
+		if((i+2)<n)
+		ans[i]=max(ans[i],arr[i]+arr[i+1]+arr[i+2]+ans[i+6]);
+		
+		/*	for(long long j=0;j<n;j++)
+			cout<<ans[j]<<" ";
+			cout<<endl;
+	}
+	for(i=0;i<n;i++)
+	cout<<ans[i]<<" ";*/
+
+}
+	cout<<ans[0]<<"\n";
+}}
