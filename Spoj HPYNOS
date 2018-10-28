@@ -1,0 +1,22 @@
+
+#include<bits/stdc++.h>
+#include <boost/lexical_cast.hpp>
+using namespace std;
+
+int main()
+{
+    string a;long long i=0,b=0,p,count=0;
+    cin>>a;
+    b=boost::lexical_cast<long long>(a);
+    while(b>9)
+    {     p=0; //cout<<b<<" ";
+        while(b>0)
+        {    p+=pow(b%10,2);
+             b/=10;
+        }
+        b=p;
+        count++;
+    }
+    b==1?cout<<count<<"\n":cout<<-1<<"\n";
+    return 0;
+}
