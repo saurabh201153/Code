@@ -12,7 +12,7 @@ int main()
     cin>>a;
     b=boost::lexical_cast<long long>(a);
     while(b>9)
-    {     p=0; //cout<<b<<" ";
+    {     p=0; 
         while(b>0)
         {    p+=pow(b%10,2);
              b/=10;
