@@ -1,0 +1,39 @@
+/*
+  Saurabh Kumar Srivastava
+  NIT Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int c[104],val[104];
+int dp[104][506];
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int cost,value,i,j;
+	cin>>cost>>value;
+	while(cost or value){
+		for(i=1;i<=value;i++)
+		cin>>c[i]>>val[i];
+		memset(dp,-1,sizeof(dp));
+		for(i=0;i<=cost;i++)
+		dp[0][i]=0;
+		for(i=1;i<=value;i++){
+			for(j=0;j<=cost;j++){
+				if(c[i]<=j)
+				dp[i][j]=max(dp[i-1][j],dp[i-1][j-c[i]]+val[i]);
+				else dp[i][j]=dp[i-1][j];
+			}
+		}
+		for(i=0;i<=cost;i++)
+		if(dp[value][i]==dp[value][cost])
+		break;
+		
+		cout<<i<<" "<<dp[value][cost]<<"\n";
+		
+		cin>>cost>>value;
+	}
+}
