@@ -1,0 +1,42 @@
+/*
+  Saurabh Kumar Srivastava
+  NIT Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	stack<char>ans;    long count,i,l,j=1;
+	string s;
+	cin>>s;
+	while(s[0]!='-'){
+		count=0;
+		l=s.length(); i=0;
+		while(i<l){
+			if(s[i]=='{')
+			ans.push('{'),i++;
+			//cout<<ans.empty()<<" ";}
+			else if(s[i]=='}'){
+				//cout<<ans.empty()<<" "<<s[i];
+				if(ans.empty()) count+=1,ans.push('{');
+				else
+				ans.pop();
+				i++;
+			}
+			 if(s[i]=='\0' and !ans.empty()){
+				while(!ans.empty()){
+					ans.pop();
+					ans.pop();
+					count+=1;
+				}
+			}
+		}
+		cout<<j<<". "<<count<<"\n";
+		j+=1;
+		cin>>s;
+	}
+}
