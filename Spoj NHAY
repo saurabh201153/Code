@@ -1,0 +1,53 @@
+/*
+	Saurabh Kumar Srivastava
+	NIT Patna
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int lps[10000];
+void computeLCS(string pat){
+	int l=pat.length(),len=0,i=1;
+	lps[0]=0;
+	while(i<l){
+		if(pat[i]==pat[len]){
+			len++;
+			lps[i]=len;
+			i++;
+		}
+		else{
+			if(len!=0)
+			len=lps[len-1];
+			
+			else{
+				lps[i]=0;
+				i++;
+			}
+		}
+	}
+}
+
+void countpat(string s,string pat){
+	int n=s.length(),len=pat.length(),i=0,l=0,f=0;
+	while(i<n){
+		if(pat[l]==s[i])i++,l++;
+		if(l==len)
+		cout<<i-len<<"\n",f=1,l=lps[l-1];
+		else if(i<n and pat[l]!=s[i]){
+			if(l!=0)
+			l=lps[l-1];
+			else
+			i++;
+		}
+	}
+	if(!f)
+	cout<<"\n";
+	
+}
+int main(){
+	string pat,s;
+	while(cin>>t>>pat>>){
+		computeLCS(pat);
+		countpat(s,pat);
+	}
+}
